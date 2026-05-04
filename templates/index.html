@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Leaf Blight Detection System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Leaf Blight Detection System</h1>
+            <p class="subtitle">AI-Powered Disease Detection for Potato Plants</p>
+        </header>
+
+        <main>
+            {% if not model_loaded %}
+            <div class="alert alert-warning">
+                <strong>Warning:</strong> Model not found. Please train the model first using:
+                <code>python src/train.py</code>
+            </div>
+            {% endif %}
+
+            <div class="upload-section">
+                <div class="upload-area" id="uploadArea">
+                    <div class="upload-icon">&#127807;</div>
+                    <h3>Upload Leaf Image</h3>
+                    <p>Drag and drop an image here, or click to select</p>
+                    <p class="file-types">Supported: PNG, JPG, JPEG (Max 16MB)</p>
+                    <input type="file" id="fileInput" accept="image/*" hidden>
+                </div>
+
+                <div class="preview-container" id="previewContainer" style="display: none;">
+                    <img id="imagePreview" alt="Preview">
+                    <button class="btn btn-secondary" id="changeImageBtn">Change Image</button>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn btn-primary" id="predictBtn" disabled>
+                    Analyze Image
+                </button>
+            </div>
+
+            <div class="loading" id="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Analyzing image...</p>
+            </div>
+
+            <div class="results" id="results" style="display: none;">
+                <h2>Analysis Results</h2>
+
+                <div class="result-card" id="resultCard">
+                    <div class="result-header">
+                        <span class="result-icon" id="resultIcon"></span>
+                        <h3 id="resultTitle"></h3>
+                    </div>
+
+                    <div class="confidence-bar">
+                        <label>Confidence</label>
+                        <div class="bar-container">
+                            <div class="bar" id="confidenceBar"></div>
+                        </div>
+                        <span class="confidence-value" id="confidenceValue"></span>
+                    </div>
+
+                    <div class="probabilities" id="probabilities"></div>
+
+                    <div class="treatment" id="treatmentSection">
+                        <h4>Recommended Treatment</h4>
+                        <p id="treatmentText"></p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-section">
+                <h2>About This System</h2>
+                <div class="info-grid">
+                    <div class="info-card">
+                        <h3>Healthy Potato</h3>
+                        <p>Potato leaves showing normal green coloration with no signs of disease.</p>
+                    </div>
+                    <div class="info-card">
+                        <h3>Potato Blight</h3>
+                        <p>Dark lesions on leaves, often with white fungal growth on undersides.</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+        <footer>
+            <p>Leaf Blight Detection System | Built with TensorFlow & Flask</p>
+            <p><a href="/history">View Training History</a></p>
+        </footer>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>
